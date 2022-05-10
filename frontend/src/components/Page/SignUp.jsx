@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useRef } from "react";
 import {
     Box,
     Stack,
@@ -6,46 +6,45 @@ import {
     FormHelperText,
     Typography,
     Button,
+    Alert,
+    AlertTitle,
 } from "@mui/material";
-const SignUp = ({ setSignup }) => {
+
+import { useNavigate } from "react-router-dom";
+
+import useLogin from "./hooks/useLogin";
+
+const SignUp = () => {
+    const navigate = useNavigate();
+
     const name = useRef();
     const email = useRef();
     const password = useRef();
     const repassword = useRef();
 
-    const [emailError, setEmailError] = useState(false);
-    const [passwordError, setPasswordError] = useState(false);
-
-    const emailValid = () => {
-        let regex = /^([da-z0-9_.-]+)@([da-z.-]+).([a-z.]{2,6})$/;
-        if (!regex.test(email.current.value)) {
-            setEmailError(true);
-            return true;
-        } else {
-            setEmailError(false);
-            return false;
-        }
-    };
-
-    const passwordValid = () => {
-        if (password.current.value !== repassword.current.value) {
-            setPasswordError(true);
-            return true;
-        }
-        setPasswordError(false);
-        return false;
-    };
+    const {
+        emailValid,
+        passwordValid,
+        emailError,
+        passwordError,
+        formError,
+        formSuccess,
+        signUp,
+    } = useLogin();
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (emailValid && passwordValid) {
-            //lets Go
+        if (
+            emailValid(email.current.value) &&
+            passwordValid(password.current.value, repassword.current.value)
+        ) {
+            console.log("guardando");
+            signUp({
+                name: name.current.value,
+                email: email.current.value,
+                password: password.current.value,
+            });
         }
-
-        console.log(name.current.value);
-        console.log(email.current.value);
-        console.log(password.current.value);
-        console.log(repassword.current.value);
     };
 
     return (
@@ -73,7 +72,7 @@ const SignUp = ({ setSignup }) => {
                     name='email'
                     autoComplete='email'
                     error={emailError}
-                    onChange={emailValid}
+                    onChange={(e) => emailValid(e.target.value)}
                     autoFocus
                 />
 
@@ -99,9 +98,11 @@ const SignUp = ({ setSignup }) => {
                     fullWidth
                     name='repassword'
                     label='Repite la contraseña'
-                    type='repassword'
+                    type='password'
                     id='repassword'
-                    onChange={passwordValid}
+                    onChange={(e) =>
+                        passwordValid(e.target.value, password.current.value)
+                    }
                     error={passwordError}
                     inputRef={repassword}
                 />
@@ -118,13 +119,23 @@ const SignUp = ({ setSignup }) => {
                     <Button
                         onClick={(e) => {
                             e.preventDefault();
-                            setSignup(false);
+                            navigate("../");
                         }}
                     >
                         Atras
                     </Button>
                 </Stack>
             </Box>
+            {formSuccess && formError.status && (
+                <Alert severity='error'>
+                    <AlertTitle>Errorr</AlertTitle>
+                    {formError.msg}
+                </Alert>
+            )}
+
+            {formSuccess && !formError.status && (
+                <Alert severity='success'>Registrado correctamente!</Alert>
+            )}
         </Stack>
     );
 };

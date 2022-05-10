@@ -1,22 +1,10 @@
-import React, { useState } from "react";
-import {
-    Grid,
-    Typography,
-    Button,
-    Stack,
-    Avatar,
-    Link,
-    Box,
-} from "@mui/material";
+import React from "react";
+import { Grid, Typography, Stack, Avatar, Link, Box } from "@mui/material";
 import GitHubIcon from "@mui/icons-material/GitHub";
 
-import SignUp from "./SignUp";
-import SignIn from "./SignIn";
+import { Outlet } from "react-router-dom";
 
 const Page = () => {
-    const [signup, setSignup] = useState(false);
-    const [signin, setSignin] = useState(false);
-
     const imgUrl =
         "https://images.pexels.com/photos/6640262/pexels-photo-6640262.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260";
     return (
@@ -30,30 +18,7 @@ const Page = () => {
             <Grid item xs={12}>
                 <Grid container minHeight='calc(100vh - 60px)'>
                     <Grid item xs={12} md={6} p={5}>
-                        {!signin && !signup && (
-                            <Stack height='100%' justifyContent='space-around'>
-                                <Typography
-                                    variant='h2'
-                                    color='initial'
-                                    textAlign='end'
-                                >
-                                    Crea tu menu Digital
-                                </Typography>
-                                <Stack alignItems='center' spacing={3}>
-                                    <Button
-                                        variant='contained'
-                                        onClick={() => setSignup(true)}
-                                    >
-                                        Registrarse
-                                    </Button>
-                                    <Button onClick={() => setSignin(true)}>
-                                        Iniciar sesion
-                                    </Button>
-                                </Stack>
-                            </Stack>
-                        )}
-                        {signin && <SignIn setSignin={setSignin} />}
-                        {signup && <SignUp setSignup={setSignup} />}
+                        <Outlet />
                     </Grid>
                     <Grid item xs={12} md={6}>
                         <Box

@@ -1,4 +1,6 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
+import { useNavigate } from "react-router-dom";
+
 import {
     Box,
     TextField,
@@ -6,34 +8,33 @@ import {
     Button,
     Stack,
     Typography,
+    Alert,
+    AlertTitle,
 } from "@mui/material";
+import useLogin from "./hooks/useLogin";
 
-const SignIn = ({ setSignin }) => {
+const SignIn = () => {
     const email = useRef();
     const password = useRef();
+    const navigate = useNavigate();
 
-    const [emailError, setEmailError] = useState(false);
+    const {
+        emailError,
+        emailValid,
+        formError,
+        formLoading,
+        formSuccess,
+        signIn,
+    } = useLogin();
 
-    const emailValid = () => {
-        let regex = /^([da-z0-9_.-]+)@([da-z.-]+).([a-z.]{2,6})$/;
-        if (!regex.test(email.current.value)) {
-            setEmailError(true);
-            return true;
-        } else {
-            setEmailError(false);
-            return false;
-        }
-    };
-
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-
-        if (emailValid()) {
-            //lets go
-        }
-
         console.log("email: ", email.current.value);
         console.log("pass: ", password.current.value);
+        if (signIn(email.current.value, password.current.value)) {
+            signIn(email.current.value, password.current.value);
+            navigate("/dashboard"); //navegar al dashboard
+        }
     };
 
     return (
@@ -51,7 +52,7 @@ const SignIn = ({ setSignin }) => {
                     name='email'
                     autoComplete='email'
                     autoFocus
-                    onChange={emailValid}
+                    onChange={(e) => emailValid(e.target.value)}
                     error={emailError}
                     inputRef={email}
                 />
@@ -74,18 +75,29 @@ const SignIn = ({ setSignin }) => {
                 />
                 <Stack mt={5}>
                     <Button variant='contained' onClick={handleSubmit}>
-                        Iniciar Sesion
+                        {formLoading ? "Cargando..." : "Iniciar Sesion"}
                     </Button>
                     <Button
                         onClick={(e) => {
                             e.preventDefault();
-                            setSignin(false);
+                            navigate("../");
                         }}
                     >
                         Atras
                     </Button>
                 </Stack>
             </Box>
+
+            {formSuccess && formError.status && (
+                <Alert severity='error'>
+                    <AlertTitle>Errorr</AlertTitle>
+                    {formError.msg}
+                </Alert>
+            )}
+
+            {formSuccess && !formError.status && (
+                <Alert severity='success'>Bienvenido!</Alert>
+            )}
         </Stack>
     );
 };
