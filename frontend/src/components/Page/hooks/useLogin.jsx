@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 
 const useLogin = () => {
     const SERVER = import.meta.env.VITE_APP_SERVER;
-    const [login, setLogin] = useState("");
 
     const [emailError, setEmailError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
@@ -19,7 +18,7 @@ const useLogin = () => {
             localStorage.setItem("LOGIN", "false");
             console.log("usuario no identificado");
         }
-    }, [login]);
+    }, []);
 
     const emailValid = (email) => {
         let regex = /^([da-z0-9_.-]+)@([da-z.-]+).([a-z.]{2,6})$/;
