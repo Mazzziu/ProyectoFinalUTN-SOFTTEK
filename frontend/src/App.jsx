@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, Outlet } from "react-router-dom";
 
 import useLogin from "./components/Page/hooks/useLogin";
 
@@ -15,6 +15,7 @@ import Inicio from "./components/Dashboard/Inicio";
 import MiCarta from "./components/Dashboard/MiCarta";
 import MiPerfil from "./components/Dashboard/MiPerfil";
 import Ordenes from "./components/Dashboard/Ordenes";
+import NewMenu from "./components/Dashboard/MiCarta/NewMenu";
 
 function App() {
     const { isLogin } = useLogin();
@@ -35,9 +36,11 @@ function App() {
                     <Route path='signup' element={<SignUp />} />
                 </Route>
                 <Route path='/dashboard' element={<Dashboard />}>
-                    <Route index element={<Inicio />} />
+                    <Route path='carta' element={<Outlet />}>
+                        <Route index element={<MiCarta />} />
+                        <Route path='new-menu' element={<NewMenu />} />
+                    </Route>
                     <Route path='perfil' element={<MiPerfil />} />
-                    <Route path='carta' element={<MiCarta />} />
                     <Route path='ordenes' element={<Ordenes />} />
                 </Route>
             </Routes>
