@@ -23,7 +23,7 @@ function App() {
 
     useEffect(() => {
         if (isLogin()) {
-            navigate("./dashboard");
+            navigate("./dashboard/carta");
         }
     }, []);
 

@@ -1,7 +1,9 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const useLogin = () => {
+    const navigate = useNavigate();
     const SERVER = import.meta.env.VITE_APP_SERVER;
 
     const [emailError, setEmailError] = useState(false);
@@ -14,6 +16,7 @@ const useLogin = () => {
         let islogin = JSON.parse(localStorage.getItem("LOGIN"));
         if (islogin) {
             console.log("usuario logueado");
+            navigate("/dashboard");
         } else {
             localStorage.setItem("LOGIN", "false");
             console.log("usuario no identificado");
@@ -63,6 +66,7 @@ const useLogin = () => {
                             email: res.data.data.email,
                         })
                     );
+                    navigate("/dashboard");
                     return res.data.data;
                 } else {
                     throw new Error(res.data.error);
@@ -92,10 +96,12 @@ const useLogin = () => {
             setFromSuccess(false);
 
             let res = await axios.post(SERVER + "/clients", data);
+            console.log(res);
             if (res.data.error === "") {
                 setFromSuccess(true);
                 setFromLoading(false);
                 setFromError({ status: false, msg: "" });
+                navigate("/signin");
                 return res.data.data;
             } else {
                 throw new Error(res.data.error);

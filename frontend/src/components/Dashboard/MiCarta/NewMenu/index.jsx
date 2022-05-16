@@ -3,6 +3,7 @@ import React, { useState } from "react";
 //components
 import IntroMenu from "./IntroMenu";
 import FormProducts from "./FormProducts";
+//import AlertMsg from "../../../AlertMsg";
 
 import {
     Box,
@@ -14,9 +15,19 @@ import {
     StepContent,
     Paper,
 } from "@mui/material";
+// import LoadingButton from "@mui/lab/LoadingButton";
+import SaveIcon from "@mui/icons-material/Save";
+
+import useDB from "../../../hooks/useDB";
 
 const NewMenu = () => {
-    const [data, setData] = useState({});
+    const [data, setData] = useState({
+        clientId: JSON.parse(localStorage.getItem("LOGIN")).id,
+        title: "",
+        description: "",
+        cover: "",
+        categories: [],
+    });
 
     const steps = [
         {
@@ -32,7 +43,6 @@ const NewMenu = () => {
     const [activeStep, setActiveStep] = React.useState(0);
 
     const handleNext = () => {
-        console.log(data);
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
     };
 
@@ -40,8 +50,23 @@ const NewMenu = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
-    const handleReset = () => {
-        setActiveStep(0);
+    const { loading, error, done, DB } = useDB();
+
+    const handleFinish = () => {
+        console.log(data);
+        DB.save("/menus", data)
+            .then((stored) => {
+                console.log(stored);
+                setActiveStep(0);
+                setData({
+                    clientId: JSON.parse(localStorage.getItem("LOGIN")).id,
+                    title: "",
+                    description: "",
+                    cover: "",
+                    categories: [],
+                });
+            })
+            .catch((err) => console.log(err));
     };
     return (
         <>
@@ -62,7 +87,9 @@ const NewMenu = () => {
                         >
                             {step.label}
                         </StepLabel>
-                        <StepContent TransitionProps={{ unmountOnExit: false }}>
+                        <StepContent
+                            TransitionProps={{ unmountOnExit: loading }}
+                        >
                             {step.body}
                             <Box sx={{ my: "2rem" }}>
                                 <div>
@@ -86,7 +113,6 @@ const NewMenu = () => {
                     </Step>
                 ))}
             </Stepper>
-
             {activeStep === steps.length && (
                 <Paper square elevation={0} sx={{ p: 3 }}>
                     <Typography>
@@ -95,13 +121,25 @@ const NewMenu = () => {
                     <Button
                         variant='contained'
                         color='success'
-                        onClick={handleReset}
+                        startIcon={<SaveIcon />}
+                        onClick={handleBack}
+                        sx={{ mt: 1, mr: 1 }}
+                        disable={loading}
+                    >
+                        {loading ? "Guardando" : "Guardar"}
+                    </Button>
+                    <Button
+                        variant='text'
+                        color='primary'
+                        onClick={handleBack}
                         sx={{ mt: 1, mr: 1 }}
                     >
-                        Guardar
+                        Atras
                     </Button>
                 </Paper>
             )}
+            {/* <AlertMsg show={done.status} type='success' msg='Menú Guardado!' />
+            <AlertMsg show={error.status} type='error' msg={error.msg} /> */}
         </>
     );
 };

@@ -24,21 +24,20 @@ const saveClient = (data) => {
             let searchClient = await findClient(data.email);
             console.log(data.email);
             console.log(searchClient);
-            if (searchClient.lenth === 0) {
-                reject("Cliente no registrado");
-            }
-            if (searchClient.length > 0)
-                reject("Cliente ya registrado con email: ", data.email);
 
-            const client = new Model({
-                name: data.name,
-                email: data.email,
-                password: data.password,
-            });
-            client
-                .save()
-                .then((stored) => resolve(stored))
-                .catch((err) => reject(err));
+            if (searchClient.length > 0) {
+                reject(`Email ${data.email} ya se encuentra en uso`);
+            } else {
+                const client = new Model({
+                    name: data.name,
+                    email: data.email,
+                    password: data.password,
+                });
+                client
+                    .save()
+                    .then((stored) => resolve(stored))
+                    .catch((err) => reject(err));
+            }
         } else {
             reject("Faltan parametros");
         }

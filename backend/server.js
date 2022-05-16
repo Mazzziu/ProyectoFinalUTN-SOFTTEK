@@ -1,12 +1,14 @@
 const express = require("express");
 const app = express();
+const path = require("path");
 require("dotenv").config();
 const c = require("ansi-colors");
 
 //config
 const PORT = process.env.PORT || 3400;
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(express.urlencoded({ extended: true, limit: "25mb" }));
+app.use(express.json({ limit: "25mb" }));
+app.use("/public", express.static(path.join(__dirname, "./public")));
 
 //routes
 const routes = require("./network/routes");

@@ -31,10 +31,10 @@ const SignIn = () => {
         e.preventDefault();
         console.log("email: ", email.current.value);
         console.log("pass: ", password.current.value);
-        if (signIn(email.current.value, password.current.value)) {
-            signIn(email.current.value, password.current.value);
-            navigate("/dashboard"); //navegar al dashboard
-        }
+        // if (signIn(email.current.value, password.current.value)) {
+        signIn(email.current.value, password.current.value);
+        // navigate("/dashboard"); //navegar al dashboard
+        // }
     };
 
     return (

@@ -97,6 +97,14 @@ export default function MiniDrawer() {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
 
+    React.useEffect(() => {
+        let islogin = JSON.parse(localStorage.getItem("LOGIN"));
+        if (!islogin) {
+            navigate("/");
+            console.log("usuario no identificado");
+        }
+    }, []);
+
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -108,11 +116,11 @@ export default function MiniDrawer() {
     const name = JSON.parse(localStorage.getItem("LOGIN")).name;
     const navigate = useNavigate();
     const menu = [
-        {
-            title: "Inicio",
-            link: "/dashboard",
-            icon: <HomeIcon />,
-        },
+        // {
+        //     title: "Inicio",
+        //     link: "/dashboard",
+        //     icon: <HomeIcon />,
+        // },
         {
             title: "Mi Carta",
             link: "carta",
