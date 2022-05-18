@@ -1,10 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Grid, Typography, Stack, Avatar, Link, Box } from "@mui/material";
 import GitHubIcon from "@mui/icons-material/GitHub";
 
-import { Outlet } from "react-router-dom";
+import useLogin from "../../hooks/useLogin";
+import { Outlet, useNavigate } from "react-router-dom";
 
 const Page = () => {
+    const { isLogin } = useLogin();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (isLogin()) {
+            navigate("./dashboard/carta");
+        }
+    }, []);
+
     const imgUrl =
         "https://images.pexels.com/photos/6640262/pexels-photo-6640262.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260";
     return (

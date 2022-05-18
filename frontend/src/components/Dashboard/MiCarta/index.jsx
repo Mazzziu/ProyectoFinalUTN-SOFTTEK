@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 import { Typography, Button, Box, Stack, CssBaseline } from "@mui/material";
-import CartaPreview from "./CartaPreview";
+import CardMenu from "./CardMenu";
 import { useNavigate } from "react-router-dom";
 const MiCarta = () => {
     const navigate = useNavigate();
@@ -34,8 +34,9 @@ const MiCarta = () => {
                 gap={3}
             >
                 {menus.map((carta) => (
-                    <CartaPreview
+                    <CardMenu
                         key={carta._id}
+                        id={carta._id}
                         title={carta.title}
                         desc={carta.description}
                         cover={carta.cover}

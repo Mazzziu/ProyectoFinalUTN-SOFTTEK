@@ -1,13 +1,12 @@
 import { useEffect } from "react";
-import { Routes, Route, useNavigate, Outlet } from "react-router-dom";
-
-import useLogin from "./components/Page/hooks/useLogin";
+import { Routes, Route, Outlet } from "react-router-dom";
 
 //page
 import Page from "./components/Page";
 import LoginPage from "./components/Page/LoginPage";
 import SignUp from "./components/Page/SignUp";
 import SignIn from "./components/Page/SignIn";
+import MenuOnline from "./components/MenuOnline";
 
 //dashboard
 import Dashboard from "./components/Dashboard";
@@ -18,33 +17,23 @@ import Ordenes from "./components/Dashboard/Ordenes";
 import NewMenu from "./components/Dashboard/MiCarta/NewMenu";
 
 function App() {
-    const { isLogin } = useLogin();
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        if (isLogin()) {
-            navigate("./dashboard/carta");
-        }
-    }, []);
-
     return (
-        <>
-            <Routes>
-                <Route path='/' element={<Page />}>
-                    <Route index element={<LoginPage />} />
-                    <Route path='signin' element={<SignIn />} />
-                    <Route path='signup' element={<SignUp />} />
+        <Routes>
+            <Route path='/' element={<Page />}>
+                <Route index element={<LoginPage />} />
+                <Route path='signin' element={<SignIn />} />
+                <Route path='signup' element={<SignUp />} />
+            </Route>
+            <Route path='/view/:menuId' element={<MenuOnline />} />
+            <Route path='/dashboard' element={<Dashboard />}>
+                <Route path='carta' element={<Outlet />}>
+                    <Route index element={<MiCarta />} />
+                    <Route path='new-menu' element={<NewMenu />} />
                 </Route>
-                <Route path='/dashboard' element={<Dashboard />}>
-                    <Route path='carta' element={<Outlet />}>
-                        <Route index element={<MiCarta />} />
-                        <Route path='new-menu' element={<NewMenu />} />
-                    </Route>
-                    <Route path='perfil' element={<MiPerfil />} />
-                    <Route path='ordenes' element={<Ordenes />} />
-                </Route>
-            </Routes>
-        </>
+                <Route path='perfil' element={<MiPerfil />} />
+                <Route path='ordenes' element={<Ordenes />} />
+            </Route>
+        </Routes>
     );
 }
 

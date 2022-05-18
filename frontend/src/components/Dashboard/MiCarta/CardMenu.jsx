@@ -7,11 +7,15 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Chip } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
-export default function CartaPreview({ title, desc, cover }) {
+const CardMenu = ({ id, title, desc, cover }) => {
+    const deleteMenu = () => {};
+    const navigate = useNavigate();
+
     return (
         <Card sx={{ maxWidth: 345 }}>
-            <CardActionArea>
+            <CardActionArea onClick={() => navigate("/view/" + id)}>
                 <CardMedia
                     component='img'
                     alt='portada del menu'
@@ -32,10 +36,12 @@ export default function CartaPreview({ title, desc, cover }) {
                 <Button size='small' color='secondary'>
                     Editar
                 </Button>
-                <Button size='small' color='error'>
+                <Button size='small' color='error' onClick={deleteMenu}>
                     Eliminar
                 </Button>
             </CardActions>
         </Card>
     );
-}
+};
+
+export default CardMenu;

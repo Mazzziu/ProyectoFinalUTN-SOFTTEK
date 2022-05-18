@@ -4,7 +4,6 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
-import ImageIcon from "@mui/icons-material/Image";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Typography } from "@mui/material";
@@ -22,7 +21,7 @@ const ProductItem = ({ product }) => {
                 <Avatar
                     alt='imagen de producto'
                     src={product.img}
-                    sx={{ width: "60px", height: "60px" }}
+                    sx={{ width: "60px", height: "60px", mr: "1rem" }}
                 />
             </ListItemAvatar>
             <ListItemText

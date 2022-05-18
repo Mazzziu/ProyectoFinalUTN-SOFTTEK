@@ -12,7 +12,7 @@ import {
 
 import { useNavigate } from "react-router-dom";
 
-import useLogin from "./hooks/useLogin";
+import useLogin from "../../hooks/useLogin";
 
 const SignUp = () => {
     const navigate = useNavigate();

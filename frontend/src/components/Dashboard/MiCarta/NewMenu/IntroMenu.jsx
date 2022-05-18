@@ -1,7 +1,7 @@
 import React from "react";
 import { styled } from "@mui/material/styles";
 import { Box, TextField, Button, Typography, Stack } from "@mui/material";
-import useBase64 from "../../../hooks/useBase64";
+import useBase64 from "../../../../hooks/useBase64";
 
 const IntroMenu = ({ setData }) => {
     const handleInput = (e) => {

@@ -3,9 +3,9 @@ const router = express.Router();
 const controller = require("./controller");
 const response = require("../../network/response");
 
-router.post("/login", (req, res) => {
+router.post("/", (req, res) => {
     controller
-        .login(req.body)
+        .saveProduct(req.body)
         .then((data) => {
             response.success(res, data.msg, data);
         })
@@ -15,22 +15,11 @@ router.post("/login", (req, res) => {
         });
 });
 
-router.post("/", (req, res) => {
-    controller
-        .saveClient(req.body)
-        .then((data) => {
-            response.success(res, "Cliente guardado", data);
-        })
-        .catch((err) => {
-            response.error(res, err, err);
-        });
-});
-
 router.get("/", (req, res) => {
     controller
-        .findClient(req.query)
+        .getProduct(req.query.id)
         .then((data) => {
-            response.success(res, "Cliente encontrado", data);
+            response.success(res, "Productos encontradas", data);
         })
         .catch((err) => {
             response.error(res, err, err);

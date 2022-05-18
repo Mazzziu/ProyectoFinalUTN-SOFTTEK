@@ -3,7 +3,7 @@ import React, { useState } from "react";
 //components
 import IntroMenu from "./IntroMenu";
 import FormProducts from "./FormProducts";
-//import AlertMsg from "../../../AlertMsg";
+import AlertMsg from "../../../AlertMsg";
 
 import {
     Box,
@@ -15,10 +15,9 @@ import {
     StepContent,
     Paper,
 } from "@mui/material";
-// import LoadingButton from "@mui/lab/LoadingButton";
 import SaveIcon from "@mui/icons-material/Save";
 
-import useDB from "../../../hooks/useDB";
+import useDB from "../../../../hooks/useDB";
 
 const NewMenu = () => {
     const [data, setData] = useState({
@@ -56,7 +55,7 @@ const NewMenu = () => {
         console.log(data);
         DB.save("/menus", data)
             .then((stored) => {
-                console.log(stored);
+                console.log("[stored]", stored);
                 setActiveStep(0);
                 setData({
                     clientId: JSON.parse(localStorage.getItem("LOGIN")).id,
@@ -67,6 +66,40 @@ const NewMenu = () => {
                 });
             })
             .catch((err) => console.log(err));
+
+        // let categoriesWithProdId = (categories) => {
+        //     return new Promise((resolve) => {
+        //         categories.map((cat) => {
+        //             let category = { title: cat.title, products: [] };
+        //             cat.products.map((prod) => {
+        //                 DB.save("/products", prod).then((productStored) =>
+        //                     category.products.push(productStored._id)
+        //                 );
+        //             });
+        //             resolve(category);
+        //         });
+        //     });
+        // };
+
+        // categoriesWithProdId(data.categories)
+        //     .then((categoryModified) => {
+        //         console.log("[cat mod]", categoryModified);
+        //         let dataCopy = JSON.parse(JSON.stringify(data));
+        //         dataCopy.categories = categoryModified;
+        //         console.log("[dataCopy]", dataCopy);
+        //         DB.save("/menus", dataCopy).then((stored) => {
+        //             console.log("[stored]", stored.categories);
+        //             setActiveStep(0);
+        //             setData({
+        //                 clientId: JSON.parse(localStorage.getItem("LOGIN")).id,
+        //                 title: "",
+        //                 description: "",
+        //                 cover: "",
+        //                 categories: [],
+        //             });
+        //         });
+        //     })
+        //     .catch((err) => console.log(err));
     };
     return (
         <>
@@ -87,9 +120,7 @@ const NewMenu = () => {
                         >
                             {step.label}
                         </StepLabel>
-                        <StepContent
-                            TransitionProps={{ unmountOnExit: loading }}
-                        >
+                        <StepContent TransitionProps={{ unmountOnExit: false }}>
                             {step.body}
                             <Box sx={{ my: "2rem" }}>
                                 <div>
@@ -118,16 +149,26 @@ const NewMenu = () => {
                     <Typography>
                         Todos los pasos completados! es hora de guardar tu menú
                     </Typography>
-                    <Button
-                        variant='contained'
-                        color='success'
-                        startIcon={<SaveIcon />}
-                        onClick={handleBack}
-                        sx={{ mt: 1, mr: 1 }}
-                        disable={loading}
-                    >
-                        {loading ? "Guardando" : "Guardar"}
-                    </Button>
+                    {!loading ? (
+                        <Button
+                            variant='contained'
+                            color='success'
+                            startIcon={<SaveIcon />}
+                            onClick={handleFinish}
+                            sx={{ mt: 1, mr: 1 }}
+                        >
+                            Guardar
+                        </Button>
+                    ) : (
+                        <Button
+                            variant='contained'
+                            startIcon={<SaveIcon />}
+                            sx={{ mt: 1, mr: 1 }}
+                            disabled
+                        >
+                            Guardando...
+                        </Button>
+                    )}
                     <Button
                         variant='text'
                         color='primary'
@@ -138,8 +179,8 @@ const NewMenu = () => {
                     </Button>
                 </Paper>
             )}
-            {/* <AlertMsg show={done.status} type='success' msg='Menú Guardado!' />
-            <AlertMsg show={error.status} type='error' msg={error.msg} /> */}
+            <AlertMsg show={done.status} type='success' msg='Menú Guardado!' />
+            <AlertMsg show={error.status} type='error' msg={error.msg} />
         </>
     );
 };

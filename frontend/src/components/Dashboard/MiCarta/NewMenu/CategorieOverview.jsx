@@ -16,11 +16,11 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const CategorieOverview = ({ data }) => {
     return (
-        data.categories.length > 0 && (
-            <Box width='100%'>
-                <Typography variant='h5' color='initial' mb={2}>
-                    Resumen
-                </Typography>
+        <Box width='100%'>
+            <Typography variant='h5' color='initial' mb={2}>
+                Resumen del Menu
+            </Typography>
+            {data.categories.length > 0 && (
                 <Stack>
                     {data.categories.map((cat) => (
                         <Accordion key={"cat-" + cat.title}>
@@ -56,8 +56,8 @@ const CategorieOverview = ({ data }) => {
                         </Accordion>
                     ))}
                 </Stack>
-            </Box>
-        )
+            )}
+        </Box>
     );
 };
 

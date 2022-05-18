@@ -7,7 +7,7 @@ const useDB = () => {
         status: false,
         msg: "",
     });
-    const [done, setDoen] = useState({
+    const [done, setDone] = useState({
         status: false,
         data: "",
     });
@@ -16,26 +16,26 @@ const useDB = () => {
 
     const DB = {
         save: (url, data) => {
+            console.log("[useDB]: ", data);
             setLoading(true);
             return new Promise((resolve, reject) => {
                 axios
                     .post(SERVER + url, data)
                     .then((stored) => {
-                        resolve(stored);
-                        setDoen({
+                        setDone({
                             status: true,
-                            data: stored,
+                            data: stored.data.data,
                         });
                         setError({
                             status: false,
                             msg: "",
                         });
                         setLoading(false);
+                        resolve(stored.data.data);
                     })
                     .catch((err) => {
-                        reject(err);
-                        setDoen({
-                            status: true,
+                        setDone({
+                            status: false,
                             data: "",
                         });
                         setError({
@@ -43,6 +43,38 @@ const useDB = () => {
                             msg: err.message,
                         });
                         setLoading(false);
+                        reject(err);
+                    });
+            });
+        },
+        get: (url) => {
+            setLoading(true);
+            return new Promise((resolve, reject) => {
+                axios
+                    .get(SERVER + url)
+                    .then((data) => {
+                        setDone({
+                            status: true,
+                            data: data.data.data,
+                        });
+                        setError({
+                            status: false,
+                            msg: "",
+                        });
+                        setLoading(false);
+                        resolve(data);
+                    })
+                    .catch((err) => {
+                        setDoen({
+                            status: false,
+                            data: "",
+                        });
+                        setError({
+                            status: true,
+                            msg: err.message,
+                        });
+                        setLoading(false);
+                        reject(err);
                     });
             });
         },

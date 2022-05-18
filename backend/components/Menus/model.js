@@ -10,14 +10,7 @@ const schema = new Schema({
     categories: [
         {
             title: String,
-            products: [
-                {
-                    name: String,
-                    description: String,
-                    price: Number,
-                    img: String,
-                },
-            ],
+            products: [{ type: Schema.Types.ObjectId, ref: "products" }],
         },
     ],
 });

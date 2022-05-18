@@ -1,10 +1,19 @@
 const Model = require("./model");
 
-const findClient = (email) => {
+const findClient = (data) => {
     return new Promise((resolve, reject) => {
-        if (!email) reject("falta parametor email");
+        console.log(data);
+        if (Object.keys(data).length === 0) reject("faltan parámetos");
 
-        Model.find({ email: email })
+        let query = {};
+        if (data.id) {
+            query = { _id: data.id };
+        }
+        if (data.email) {
+            query = { email: data.email };
+        }
+
+        Model.find(query)
             .then((client) => {
                 resolve(client);
             })

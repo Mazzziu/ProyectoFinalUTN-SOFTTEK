@@ -3,9 +3,10 @@ const Schema = mongoose.Schema;
 
 const schema = new Schema({
     name: String,
-    email: String,
-    password: String,
+    description: String,
+    price: Number,
+    img: String,
 });
 
-const model = new mongoose.model("clients", schema);
+const model = new mongoose.model("products", schema);
 module.exports = model;
