@@ -1,28 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext } from "react";
+//mui
+import { Typography, Avatar, Stack } from "@mui/material";
 
-import {
-    Grid,
-    Typography,
-    TextField,
-    InputAdornment,
-    Avatar,
-    Stack,
-    Fab,
-    Drawer,
-} from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
-import RoomServiceIcon from "@mui/icons-material/RoomService";
-
-import Category from "./Category";
-import Order from "./Order";
-
+//hooks
 import useMenu from "../../hooks/useMenu";
 
+//context
+import { MenuContext } from "../context/MenuContext";
+
+//components
+import Cart from "./Cart";
+import Category from "./Category";
+import OrderButton from "./OrderButton";
+import SearchProduct from "./SearchProduct";
+
 const MenuOnline = () => {
-    const { menu, client, loading } = useMenu();
-    const [show, setShow] = useState(false);
-    console.log(client);
-    console.log(menu);
+    const { findProduct, client, loading } = useContext(MenuContext);
+    const [showCart, setShowCart] = useState(false);
+
     return (
         !loading && (
             <Stack
@@ -38,59 +33,23 @@ const MenuOnline = () => {
                     </Typography>
                 </Stack>
 
-                <Stack width='50%'>
-                    <TextField
-                        id='search'
-                        variant='standard'
-                        placeholder='Buscar'
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position='start'>
-                                    <SearchIcon />
-                                </InputAdornment>
-                            ),
-                        }}
-                    />
-                </Stack>
+                <SearchProduct />
 
                 <Stack width='90%' gap={10}>
-                    {menu.categories.map((cat) => (
-                        <Category key={cat._id} cat={cat} />
-                    ))}
+                    {findProduct.map(
+                        (cat) =>
+                            cat.products.length > 0 && (
+                                <Category key={cat._id} cat={cat} />
+                            )
+                    )}
                 </Stack>
 
-                <Stack
-                    alignSelf='flex-end'
-                    sx={{
-                        position: "-webkit-sticky",
-                        position: "sticky",
-                        bottom: "25px",
-                        right: "50px",
-                        zIndex: "1",
-                    }}
-                >
-                    <Fab
-                        variant='extended'
-                        color='primary'
-                        onClick={() => setShow((prevState) => !prevState)}
-                    >
-                        <RoomServiceIcon sx={{ mr: 1 }} />
-                        {!show ? "Ver Orden" : "Ocultar"}
-                    </Fab>
-                </Stack>
-
-                <Drawer
-                    sx={{
-                        zIndex: "0",
-                    }}
-                    anchor='left'
-                    open={show}
-                    onClose={() => setShow(false)}
-                >
-                    <Stack>
-                        <Order></Order>
-                    </Stack>
-                </Drawer>
+                <OrderButton showCart={showCart} setShowCart={setShowCart} />
+                <Cart
+                    showCart={showCart}
+                    setShowCart={setShowCart}
+                    products={[]}
+                />
             </Stack>
         )
     );

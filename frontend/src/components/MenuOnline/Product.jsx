@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
     Typography,
     Card,
@@ -10,8 +10,14 @@ import {
     Stack,
 } from "@mui/material";
 
+//context
+import { MenuContext } from "../context/MenuContext";
+
 const Product = ({ item }) => {
     let { _id, name, img, description, price } = item;
+
+    const { addToCart } = useContext(MenuContext);
+
     return (
         <Card sx={{ width: "270px", height: "380px" }}>
             <CardActionArea onClick={() => console.log(_id)}>
@@ -59,7 +65,7 @@ const Product = ({ item }) => {
                 <Button
                     size='small'
                     color='primary'
-                    onClick={() => console.log(_id)}
+                    onClick={() => addToCart(item, price)}
                     fullWidth
                 >
                     Agregar

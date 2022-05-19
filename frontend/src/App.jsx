@@ -16,6 +16,9 @@ import MiPerfil from "./components/Dashboard/MiPerfil";
 import Ordenes from "./components/Dashboard/Ordenes";
 import NewMenu from "./components/Dashboard/MiCarta/NewMenu";
 
+//context
+import { MenuProvider } from "./components/context/MenuContext";
+
 function App() {
     return (
         <Routes>
@@ -24,7 +27,6 @@ function App() {
                 <Route path='signin' element={<SignIn />} />
                 <Route path='signup' element={<SignUp />} />
             </Route>
-            <Route path='/view/:menuId' element={<MenuOnline />} />
             <Route path='/dashboard' element={<Dashboard />}>
                 <Route path='carta' element={<Outlet />}>
                     <Route index element={<MiCarta />} />
@@ -33,6 +35,14 @@ function App() {
                 <Route path='perfil' element={<MiPerfil />} />
                 <Route path='ordenes' element={<Ordenes />} />
             </Route>
+            <Route
+                path='/view/:menuId'
+                element={
+                    <MenuProvider>
+                        <MenuOnline />
+                    </MenuProvider>
+                }
+            />
         </Routes>
     );
 }
