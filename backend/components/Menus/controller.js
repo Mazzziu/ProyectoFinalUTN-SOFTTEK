@@ -59,8 +59,27 @@ const getMenu = (menuId) => {
     });
 };
 
+const deleteMenu = (menuId) => {
+    return new Promise((resolve, reject) => {
+        Model.find({ _id: menuId })
+            .select("categories.products")
+            .then((data) => {
+                data[0].categories.map((cat) => {
+                    cat.products.map(async (prod) => {
+                        console.log(prod._id.toString());
+                        await ProductController.deleteProd(prod._id.toString());
+                    });
+                });
+                Model.deleteOne({ _id: menuId }).then((deleted) =>
+                    resolve(deleted)
+                );
+            });
+    });
+};
+
 module.exports = {
     saveMenu,
     findClientMenu,
     getMenu,
+    deleteMenu,
 };

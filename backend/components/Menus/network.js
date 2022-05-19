@@ -37,4 +37,15 @@ router.get("/:menuId", (req, res) => {
         });
 });
 
+router.delete("/", (req, res) => {
+    controller
+        .deleteMenu(req.query.id)
+        .then((data) => {
+            response.success(res, "Menu encontrado", data);
+        })
+        .catch((err) => {
+            response.error(res, err, err);
+        });
+});
+
 module.exports = router;

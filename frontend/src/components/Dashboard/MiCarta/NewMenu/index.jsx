@@ -66,40 +66,6 @@ const NewMenu = () => {
                 });
             })
             .catch((err) => console.log(err));
-
-        // let categoriesWithProdId = (categories) => {
-        //     return new Promise((resolve) => {
-        //         categories.map((cat) => {
-        //             let category = { title: cat.title, products: [] };
-        //             cat.products.map((prod) => {
-        //                 DB.save("/products", prod).then((productStored) =>
-        //                     category.products.push(productStored._id)
-        //                 );
-        //             });
-        //             resolve(category);
-        //         });
-        //     });
-        // };
-
-        // categoriesWithProdId(data.categories)
-        //     .then((categoryModified) => {
-        //         console.log("[cat mod]", categoryModified);
-        //         let dataCopy = JSON.parse(JSON.stringify(data));
-        //         dataCopy.categories = categoryModified;
-        //         console.log("[dataCopy]", dataCopy);
-        //         DB.save("/menus", dataCopy).then((stored) => {
-        //             console.log("[stored]", stored.categories);
-        //             setActiveStep(0);
-        //             setData({
-        //                 clientId: JSON.parse(localStorage.getItem("LOGIN")).id,
-        //                 title: "",
-        //                 description: "",
-        //                 cover: "",
-        //                 categories: [],
-        //             });
-        //         });
-        //     })
-        //     .catch((err) => console.log(err));
     };
     return (
         <>
@@ -109,17 +75,7 @@ const NewMenu = () => {
             <Stepper activeStep={activeStep} orientation='vertical'>
                 {steps.map((step, index) => (
                     <Step key={step.label}>
-                        <StepLabel
-                            optional={
-                                index === 2 ? (
-                                    <Typography variant='caption'>
-                                        Last step
-                                    </Typography>
-                                ) : null
-                            }
-                        >
-                            {step.label}
-                        </StepLabel>
+                        <StepLabel>{step.label}</StepLabel>
                         <StepContent TransitionProps={{ unmountOnExit: false }}>
                             {step.body}
                             <Box sx={{ my: "2rem" }}>
@@ -179,8 +135,8 @@ const NewMenu = () => {
                     </Button>
                 </Paper>
             )}
-            <AlertMsg show={done.status} type='success' msg='Menú Guardado!' />
-            <AlertMsg show={error.status} type='error' msg={error.msg} />
+            {/* <AlertMsg show={done.status} type='success' msg='Menú Guardado!' />
+            <AlertMsg show={error.status} type='error' msg={error.msg} /> */}
         </>
     );
 };

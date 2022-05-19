@@ -15,7 +15,12 @@ const getProduct = (id) => {
     return Model.find({ _id: id });
 };
 
+const deleteProd = (id) => {
+    return Model.deleteOne({ _id: id });
+};
+
 module.exports = {
     saveProduct,
     getProduct,
+    deleteProd,
 };

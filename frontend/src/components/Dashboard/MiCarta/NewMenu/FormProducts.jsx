@@ -204,7 +204,7 @@ const FormProducts = ({ data, setData }) => {
                 </Box>
             </Box>
 
-            <CategorieOverview data={data} />
+            <CategorieOverview data={data} setData={setData} />
         </Stack>
     );
 };

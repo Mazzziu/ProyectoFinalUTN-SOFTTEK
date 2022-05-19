@@ -1,7 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
+import { useSnackbar } from "notistack";
 
 const useDB = () => {
+    const { enqueueSnackbar } = useSnackbar();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState({
         status: false,
@@ -18,10 +20,15 @@ const useDB = () => {
         save: (url, data) => {
             console.log("[useDB]: ", data);
             setLoading(true);
+            setError({ status: false });
+            setDone({ status: false });
             return new Promise((resolve, reject) => {
                 axios
                     .post(SERVER + url, data)
                     .then((stored) => {
+                        enqueueSnackbar("Guardado Correctamente!", {
+                            variant: "success",
+                        });
                         setDone({
                             status: true,
                             data: stored.data.data,
@@ -34,6 +41,9 @@ const useDB = () => {
                         resolve(stored.data.data);
                     })
                     .catch((err) => {
+                        enqueueSnackbar("Error: " + err.message, {
+                            variant: "error",
+                        });
                         setDone({
                             status: false,
                             data: "",
@@ -49,6 +59,8 @@ const useDB = () => {
         },
         get: (url) => {
             setLoading(true);
+            setError({ status: false });
+            setDone({ status: false });
             return new Promise((resolve, reject) => {
                 axios
                     .get(SERVER + url)
@@ -65,7 +77,49 @@ const useDB = () => {
                         resolve(data);
                     })
                     .catch((err) => {
+                        enqueueSnackbar("Error: " + err.message, {
+                            variant: "error",
+                        });
                         setDoen({
+                            status: false,
+                            data: "",
+                        });
+                        setError({
+                            status: true,
+                            msg: err.message,
+                        });
+                        setLoading(false);
+                        reject(err);
+                    });
+            });
+        },
+        delete: (url) => {
+            setLoading(true);
+            setError({ status: false });
+            setDone({ status: false });
+            return new Promise((resolve, reject) => {
+                axios
+                    .delete(SERVER + url)
+                    .then((data) => {
+                        enqueueSnackbar("Eliminado Correctamente!", {
+                            variant: "success",
+                        });
+                        setDone({
+                            status: true,
+                            data: data.data.data,
+                        });
+                        setError({
+                            status: false,
+                            msg: "",
+                        });
+                        setLoading(false);
+                        resolve(data);
+                    })
+                    .catch((err) => {
+                        enqueueSnackbar("Error: " + err.message, {
+                            variant: "error",
+                        });
+                        setDone({
                             status: false,
                             data: "",
                         });

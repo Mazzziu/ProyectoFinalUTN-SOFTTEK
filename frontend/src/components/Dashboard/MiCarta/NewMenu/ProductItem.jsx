@@ -8,11 +8,11 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Typography } from "@mui/material";
 
-const ProductItem = ({ product }) => {
+const ProductItem = ({ product, onDelete }) => {
     return (
         <ListItem
             secondaryAction={
-                <IconButton edge='end' aria-label='delete'>
+                <IconButton edge='end' aria-label='delete' onClick={onDelete}>
                     <DeleteIcon />
                 </IconButton>
             }

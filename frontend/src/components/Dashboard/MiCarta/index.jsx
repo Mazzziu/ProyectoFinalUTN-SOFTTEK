@@ -40,6 +40,7 @@ const MiCarta = () => {
                         title={carta.title}
                         desc={carta.description}
                         cover={carta.cover}
+                        setMenus={setMenus}
                     />
                 ))}
                 <Button variant='text' onClick={() => navigate("./new-menu")}>
