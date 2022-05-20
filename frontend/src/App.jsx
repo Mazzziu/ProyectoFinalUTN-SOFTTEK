@@ -10,7 +10,6 @@ import MenuOnline from "./components/MenuOnline";
 
 //dashboard
 import Dashboard from "./components/Dashboard";
-import Inicio from "./components/Dashboard/Inicio";
 import MiCarta from "./components/Dashboard/MiCarta";
 import MiPerfil from "./components/Dashboard/MiPerfil";
 import Ordenes from "./components/Dashboard/Ordenes";

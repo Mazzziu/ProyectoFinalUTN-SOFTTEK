@@ -30,7 +30,7 @@ const saveClient = (data) => {
             data.hasOwnProperty("email") &&
             data.hasOwnProperty("password")
         ) {
-            let searchClient = await findClient(data.email);
+            let searchClient = await findClient({ email: data.email });
             console.log(data.email);
             console.log(searchClient);
 
@@ -57,7 +57,7 @@ const login = (data) => {
     console.log(data);
     return new Promise(async (resolve, reject) => {
         if (data.hasOwnProperty("email") && data.hasOwnProperty("password")) {
-            let searchClient = await findClient(data.email);
+            let searchClient = await findClient({ email: data.email });
             if (searchClient.length === 0) {
                 reject("Contraseña o email incorrecto");
             }

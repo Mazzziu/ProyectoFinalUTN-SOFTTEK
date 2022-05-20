@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from "react";
-import axios from "axios";
 import { io } from "socket.io-client";
 import { useSnackbar } from "notistack";
 import useDB from "./useDB";

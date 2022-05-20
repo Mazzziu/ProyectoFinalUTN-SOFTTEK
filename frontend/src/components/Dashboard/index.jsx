@@ -20,7 +20,6 @@ import { Outlet, useNavigate } from "react-router-dom";
 //icons
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import HomeIcon from "@mui/icons-material/Home";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
@@ -116,13 +115,8 @@ export default function MiniDrawer() {
     const name = JSON.parse(localStorage.getItem("LOGIN")).name;
     const navigate = useNavigate();
     const menu = [
-        // {
-        //     title: "Inicio",
-        //     link: "/dashboard",
-        //     icon: <HomeIcon />,
-        // },
         {
-            title: "Mi Carta",
+            title: "Mis Cartas",
             link: "carta",
             icon: <InventoryIcon />,
         },

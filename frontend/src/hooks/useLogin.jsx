@@ -16,7 +16,7 @@ const useLogin = () => {
         let islogin = JSON.parse(localStorage.getItem("LOGIN"));
         if (islogin) {
             console.log("usuario logueado");
-            navigate("/dashboard");
+            navigate("/dashboard/carta");
         } else {
             localStorage.setItem("LOGIN", "false");
             console.log("usuario no identificado");
@@ -66,7 +66,7 @@ const useLogin = () => {
                             email: res.data.data.email,
                         })
                     );
-                    navigate("/dashboard");
+                    navigate("/dashboard/carta");
                     return res.data.data;
                 } else {
                     throw new Error(res.data.error);
