@@ -9,7 +9,7 @@ const AlertMsg = ({ show, msg, type }) => {
         if (show) {
             setTimeout(() => {
                 setOpen(false);
-            }, 5000);
+            }, 3000);
         }
     }, [show]);
 

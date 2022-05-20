@@ -74,13 +74,13 @@ const useDB = () => {
                             msg: "",
                         });
                         setLoading(false);
-                        resolve(data);
+                        resolve(data.data.data);
                     })
                     .catch((err) => {
                         enqueueSnackbar("Error: " + err.message, {
                             variant: "error",
                         });
-                        setDoen({
+                        setDone({
                             status: false,
                             data: "",
                         });
@@ -113,7 +113,46 @@ const useDB = () => {
                             msg: "",
                         });
                         setLoading(false);
-                        resolve(data);
+                        resolve(data.data.data);
+                    })
+                    .catch((err) => {
+                        enqueueSnackbar("Error: " + err.message, {
+                            variant: "error",
+                        });
+                        setDone({
+                            status: false,
+                            data: "",
+                        });
+                        setError({
+                            status: true,
+                            msg: err.message,
+                        });
+                        setLoading(false);
+                        reject(err);
+                    });
+            });
+        },
+        put: (url) => {
+            setLoading(true);
+            setError({ status: false });
+            setDone({ status: false });
+            return new Promise((resolve, reject) => {
+                axios
+                    .put(SERVER + url)
+                    .then((data) => {
+                        enqueueSnackbar("Actualizado!", {
+                            variant: "success",
+                        });
+                        setDone({
+                            status: true,
+                            data: data.data.data,
+                        });
+                        setError({
+                            status: false,
+                            msg: "",
+                        });
+                        setLoading(false);
+                        resolve(data.data.data);
                     })
                     .catch((err) => {
                         enqueueSnackbar("Error: " + err.message, {

@@ -9,10 +9,11 @@ const schema = new Schema({
     items: [
         {
             productId: { type: Schema.Types.ObjectId, ref: "products" },
-            cantidad: Number,
+            qty: Number,
         },
     ],
     total: Number,
+    date: Date,
 });
 
 const model = new mongoose.model("orders", schema);

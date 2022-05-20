@@ -26,4 +26,15 @@ router.get("/", (req, res) => {
         });
 });
 
+router.put("/complete", (req, res) => {
+    controller
+        .completeOrder(req.query.id)
+        .then((data) => {
+            response.success(res, "Orden completada", data);
+        })
+        .catch((err) => {
+            response.error(res, err, err);
+        });
+});
+
 module.exports = router;

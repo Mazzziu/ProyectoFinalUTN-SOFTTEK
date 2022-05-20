@@ -3,7 +3,7 @@ const MenuModel = require("../Menus/model");
 const { socket } = require("../../socket");
 
 const saveOrder = (data) => {
-    const { clientId, menuId, complete, mesa, items } = data;
+    const { clientId, menuId, complete, mesa, items, date, total } = data;
 
     const menu = new Model({
         clientId: clientId,
@@ -11,6 +11,8 @@ const saveOrder = (data) => {
         complete,
         mesa: Number(mesa),
         items,
+        total,
+        date,
     });
 
     socket.io.emit(clientId, "Nueva orden!");
@@ -39,7 +41,12 @@ const getOrders = (params) => {
     });
 };
 
+const completeOrder = (id) => {
+    return Model.findOneAndUpdate({ _id: id }, { complete: true });
+};
+
 module.exports = {
     saveOrder,
     getOrders,
+    completeOrder,
 };

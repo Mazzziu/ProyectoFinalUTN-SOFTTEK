@@ -2,9 +2,6 @@ import React, { useState, useContext } from "react";
 //mui
 import { Typography, Avatar, Stack } from "@mui/material";
 
-//hooks
-import useMenu from "../../hooks/useMenu";
-
 //context
 import { MenuContext } from "../context/MenuContext";
 
@@ -45,11 +42,7 @@ const MenuOnline = () => {
                 </Stack>
 
                 <OrderButton showCart={showCart} setShowCart={setShowCart} />
-                <Cart
-                    showCart={showCart}
-                    setShowCart={setShowCart}
-                    products={[]}
-                />
+                <Cart showCart={showCart} setShowCart={setShowCart} />
             </Stack>
         )
     );

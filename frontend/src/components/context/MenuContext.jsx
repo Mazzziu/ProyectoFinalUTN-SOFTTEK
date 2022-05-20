@@ -1,6 +1,7 @@
-import { useState, useEffect, createContext, Children } from "react";
+import { useState, useEffect, createContext } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import useDB from "../../hooks/useDB";
 
 const MenuContext = createContext();
 
@@ -13,13 +14,13 @@ const MenuProvider = ({ children }) => {
     const [search, setSearch] = useState([]);
 
     let { menuId } = useParams();
+    const { DB } = useDB();
     const SERVER = import.meta.env.VITE_APP_SERVER;
 
     useEffect(() => {
         const findMenu = async () => {
             try {
                 let getMenu = await axios.get(SERVER + `/menus/${menuId}`);
-                // console.log(getMenu.data.data[0].clientId);
                 let getUserInfo = await axios.get(
                     SERVER + `/clients?id=${getMenu.data.data[0].clientId}`
                 );
@@ -79,7 +80,42 @@ const MenuProvider = ({ children }) => {
             //si no esta repetido lo agrego normal
             setCart([...cart, { qty: 1, product }]);
         }
-        console.log(cart);
+    };
+
+    const deleteItem = (id) => {
+        let copyCart = cart.filter((item) => {
+            if (item.product._id !== id) {
+                return item;
+            } else {
+                setTotalItems(totalItems - item.qty);
+                setTotalCart(totalCart - item.qty * Number(item.product.price));
+            }
+        });
+        setCart(copyCart);
+    };
+
+    const sendOrder = (mesa) => {
+        let items = cart.map((item) => {
+            return {
+                productId: item.product._id,
+                qty: item.qty,
+            };
+        });
+        let dataToSend = {
+            clientId: data.clientId,
+            menuId: data._id,
+            complete: false,
+            items: items,
+            total: totalCart,
+            mesa: mesa,
+            date: new Date(),
+        };
+
+        console.log(dataToSend);
+
+        DB.save("/orders", dataToSend).then((res) => {
+            console.log(res);
+        });
     };
 
     return (
@@ -95,6 +131,8 @@ const MenuProvider = ({ children }) => {
                 cart,
                 totalCart,
                 totalItems,
+                deleteItem,
+                sendOrder,
             }}
         >
             {children}

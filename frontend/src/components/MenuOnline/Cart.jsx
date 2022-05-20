@@ -1,10 +1,9 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
     Stack,
     MenuItem,
     Typography,
     Select,
-    Chip,
     FormControl,
     InputLabel,
     Button,
@@ -13,9 +12,8 @@ import {
 import RoomServiceIcon from "@mui/icons-material/RoomService";
 import { useMediaQuery } from "react-responsive";
 
-import ProductItem from "../Dashboard/MiCarta/NewMenu/ProductItem";
-
 import { MenuContext } from "../context/MenuContext";
+import CartItems from "./CartItems";
 
 const Cart = ({ showCart, setShowCart }) => {
     const xs = useMediaQuery({ query: "(min-width: 0px)" });
@@ -33,7 +31,16 @@ const Cart = ({ showCart, setShowCart }) => {
         width = "40vw";
     }
 
-    const { cart, totalCart, totalItems } = useContext(MenuContext);
+    const { totalCart, cart, sendOrder } = useContext(MenuContext);
+    const [disable, setDisable] = useState(true);
+    const [mesas, setMesas] = useState([1, 2, 3, 4, 5, 6, 7]);
+    const [selectMesa, setSelectMesa] = useState("");
+
+    useEffect(() => {
+        if (cart.length > 0 && selectMesa !== "") {
+            setDisable(false);
+        }
+    }, [cart, selectMesa]);
 
     return (
         <Drawer
@@ -45,31 +52,14 @@ const Cart = ({ showCart, setShowCart }) => {
             onClose={() => setShowCart(false)}
         >
             <Stack width={width} p='2rem' gap={4}>
-                <Typography variant='h6' color='initial'>
+                <Typography variant='h4' color='initial'>
                     Mi Pedido
                 </Typography>
 
-                {cart.length > 0 &&
-                    cart.map((item) => (
-                        <Stack
-                            key={"item-" + item._id}
-                            direction='row'
-                            alignItems='center'
-                        >
-                            <Chip label={item.qty} />
-                            <ProductItem
-                                product={{
-                                    name: item.product.name,
-                                    img: item.product.img,
-                                    description: item.product.description,
-                                    price: item.product.price,
-                                }}
-                            />
-                        </Stack>
-                    ))}
+                <CartItems />
 
                 <Stack gap={2}>
-                    <Typography variant='body1' color='initial' align='right'>
+                    <Typography variant='h6' color='initial' align='right'>
                         Total de la orden: ${totalCart}
                     </Typography>
 
@@ -78,11 +68,11 @@ const Cart = ({ showCart, setShowCart }) => {
                             Selecciona tu mesa
                         </InputLabel>
                         <Select
-                            // value={selected}
+                            value={selectMesa}
                             label='Selecciona una categoría'
-                            // onChange={handleSelect}
+                            onChange={(e) => setSelectMesa(e.target.value)}
                         >
-                            {[1, 2, 3, 4, 5, 6].map((mesa) => (
+                            {mesas.map((mesa) => (
                                 <MenuItem key={"mesa-" + mesa} value={mesa}>
                                     Mesa {mesa}
                                 </MenuItem>
@@ -94,6 +84,8 @@ const Cart = ({ showCart, setShowCart }) => {
                         variant='contained'
                         sx={{ mt: "2rem", py: "1rem" }}
                         startIcon={<RoomServiceIcon />}
+                        disabled={disable}
+                        onClick={() => sendOrder(selectMesa)}
                     >
                         Confirmar Orden
                     </Button>
