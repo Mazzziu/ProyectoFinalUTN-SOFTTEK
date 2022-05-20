@@ -24,9 +24,12 @@ const MenuOnline = () => {
                 sx={{ position: "relative" }}
             >
                 <Stack alignItems='center' gap={3}>
-                    <Avatar sx={{ width: "100px", height: "100px" }} />
+                    <Avatar
+                        src={client.avatar}
+                        sx={{ width: "100px", height: "100px" }}
+                    />
                     <Typography variant='h4' color='initial'>
-                        {client}
+                        {client.name}
                     </Typography>
                 </Stack>
 

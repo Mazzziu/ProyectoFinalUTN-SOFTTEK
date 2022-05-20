@@ -37,4 +37,25 @@ router.get("/", (req, res) => {
         });
 });
 
+router.put("/", (req, res) => {
+    controller
+        .updateClient(req.query.id, req.body)
+        .then((data) => {
+            response.success(res, "Cliente Actualizado", data);
+        })
+        .catch((err) => {
+            response.error(res, err, err);
+        });
+});
+router.get("/", (req, res) => {
+    controller
+        .findClient(req.query)
+        .then((data) => {
+            response.success(res, "Cliente encontrado", data);
+        })
+        .catch((err) => {
+            response.error(res, err, err);
+        });
+});
+
 module.exports = router;

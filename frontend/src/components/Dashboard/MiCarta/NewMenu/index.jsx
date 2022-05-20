@@ -3,7 +3,6 @@ import React, { useState } from "react";
 //components
 import IntroMenu from "./IntroMenu";
 import FormProducts from "./FormProducts";
-import AlertMsg from "../../../AlertMsg";
 
 import {
     Box,
@@ -135,8 +134,6 @@ const NewMenu = () => {
                     </Button>
                 </Paper>
             )}
-            {/* <AlertMsg show={done.status} type='success' msg='Menú Guardado!' />
-            <AlertMsg show={error.status} type='error' msg={error.msg} /> */}
         </>
     );
 };

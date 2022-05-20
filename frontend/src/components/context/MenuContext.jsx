@@ -25,7 +25,10 @@ const MenuProvider = ({ children }) => {
                     SERVER + `/clients?id=${getMenu.data.data[0].clientId}`
                 );
                 setData(getMenu.data.data[0]);
-                setClient(getUserInfo.data.data[0].name);
+                setClient({
+                    name: getUserInfo.data.data[0].name,
+                    avatar: getUserInfo.data.data[0].avatar,
+                });
                 setLoadin(false);
             } catch (err) {
                 setLoadin(false);

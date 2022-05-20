@@ -41,6 +41,7 @@ const saveClient = (data) => {
                     name: data.name,
                     email: data.email,
                     password: data.password,
+                    avatar: "",
                 });
                 client
                     .save()
@@ -51,6 +52,11 @@ const saveClient = (data) => {
             reject("Faltan parametros");
         }
     });
+};
+
+const updateClient = (id, data) => {
+    console.log(data);
+    return Model.findOneAndUpdate({ _id: id }, data);
 };
 
 const login = (data) => {
@@ -76,5 +82,6 @@ const login = (data) => {
 module.exports = {
     saveClient,
     findClient,
+    updateClient,
     login,
 };

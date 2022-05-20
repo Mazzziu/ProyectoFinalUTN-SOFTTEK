@@ -64,6 +64,7 @@ const useLogin = () => {
                             id: res.data.data._id,
                             name: res.data.data.name,
                             email: res.data.data.email,
+                            avatar: res.data.data.avatar,
                         })
                     );
                     navigate("/dashboard/carta");

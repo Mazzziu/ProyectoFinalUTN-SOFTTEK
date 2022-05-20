@@ -113,6 +113,7 @@ export default function MiniDrawer() {
     };
 
     const name = JSON.parse(localStorage.getItem("LOGIN")).name;
+    const avatar = JSON.parse(localStorage.getItem("LOGIN")).avatar;
     const navigate = useNavigate();
     const menu = [
         {
@@ -154,7 +155,7 @@ export default function MiniDrawer() {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Avatar sx={{ mx: "1rem" }}></Avatar>
+                    <Avatar src={avatar} sx={{ mx: "1rem" }}></Avatar>
                     <Typography variant='h6' noWrap component='div'>
                         {name}
                     </Typography>

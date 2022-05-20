@@ -57,6 +57,45 @@ const useDB = () => {
                     });
             });
         },
+        update: (url, data) => {
+            setLoading(true);
+            setError({ status: false });
+            setDone({ status: false });
+            return new Promise((resolve, reject) => {
+                axios
+                    .put(SERVER + url, data)
+                    .then((stored) => {
+                        enqueueSnackbar("Actualizado Correctamente!", {
+                            variant: "success",
+                        });
+                        setDone({
+                            status: true,
+                            data: stored.data.data,
+                        });
+                        setError({
+                            status: false,
+                            msg: "",
+                        });
+                        setLoading(false);
+                        resolve(stored.data.data);
+                    })
+                    .catch((err) => {
+                        enqueueSnackbar("Error: " + err.message, {
+                            variant: "error",
+                        });
+                        setDone({
+                            status: false,
+                            data: "",
+                        });
+                        setError({
+                            status: true,
+                            msg: err.message,
+                        });
+                        setLoading(false);
+                        reject(err);
+                    });
+            });
+        },
         get: (url) => {
             setLoading(true);
             setError({ status: false });
