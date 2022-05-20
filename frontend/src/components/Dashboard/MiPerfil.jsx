@@ -1,7 +1,7 @@
 import React from "react";
 
 const MiPerfil = () => {
-    return <h1>MiPerfil</h1>;
+    return <p>MiPerfil, seccion en progreso...</p>;
 };
 
 export default MiPerfil;
