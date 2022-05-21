@@ -19,6 +19,10 @@ Con esta web podran gestionar los pedidos de las mesas en su restaurant o bar de
 
 5. En tiempo real el restaurant recibe la orden de la mesa.
 
+## Online demo
+
+https://62882cb9a700c11fa0e80002--mellow-babka-a67acd.netlify.app/
+
 # Correr de forma local
 
 Clonar el proyecto
