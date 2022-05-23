@@ -21,7 +21,7 @@ Con esta web podran gestionar los pedidos de las mesas en su restaurant o bar de
 
 ## Online demo
 
-https://62882cb9a700c11fa0e80002--mellow-babka-a67acd.netlify.app/
+https://628b918f0b60f952b35f266d--mellow-babka-a67acd.netlify.app/
 
 # Correr de forma local
 
